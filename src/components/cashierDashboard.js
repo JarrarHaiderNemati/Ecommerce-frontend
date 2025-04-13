@@ -235,6 +235,7 @@ function CashierDashboard() {
 
     //Update UI Immediately
     const prevState=structuredClone(products); //Previous state of products
+    const prevDiscount=structuredClone(discountExists); //Previous state of discounts
     setProducts((prev) =>
       prev.map((item) =>
         item.category === saveCat
@@ -250,7 +251,13 @@ function CashierDashboard() {
       )
     );
     setShowEditModal(false); //Hide edit modal
-
+    setDiscountexists((prev) => ({ //Also edit the name in discount 
+      ...prev,
+      [originalItemName]: {
+        name: editItemName
+      }
+    }));
+    
     try {
       const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/editItems", {
         method: "PUT",
@@ -261,8 +268,22 @@ function CashierDashboard() {
         }),
       });
 
-      if (!reqs.ok) {
-        setProducts(prevState); //Revert the state
+      //Also update the name in discount model else when the name changes the discount will be hidden automatically
+      const reqs2=await fetch("https://ecommerce-backend-irak.onrender.com/updateDiscountName",{ 
+        method:'PUT',
+        headers:{
+          'content-type':'application/json'
+        },
+        body:JSON.stringify({
+          name:originalItemName,
+          newName:editItemName
+        })
+      });
+      
+
+      if (!reqs.ok||!reqs2.ok) {
+        setProducts(prevState); //Revert the state of discounts
+        setDiscountexists(prevDiscount); //Revert the state of discounts
         setEditErr(true);
         setTimeout(() => setEditErr(false), 2000);
         closeEditModal(); //Clears editing variables
@@ -277,18 +298,47 @@ function CashierDashboard() {
     }
   };
 
-  // Add new item
   const addItem = async () => {
-    if (!prodName || !stock || !price || !category||!photoFile) {
+    if (!prodName || !stock || !price || !category || !photoFile) {
       setMissData(true);
       setTimeout(() => setMissData(false), 2000);
       return;
     }
-
-    const imageURL=await uploadImg();
-    if(!imageURL) {
+  
+    const imageURL = await uploadImg();
+    if (!imageURL) {
       return;
     }
+  
+    // Update UI
+    setProducts((prev) => {
+      const updated = [...prev];
+      const categoryIndex = updated.findIndex((group) => group.category === category);
+  
+      const newItem = {
+        name: prodName,
+        price: price,
+        stock: stock,
+        photo: photoFile,
+      };
+  
+      if (categoryIndex !== -1) {
+        // Category exists → push item into it
+        updated[categoryIndex].items.push(newItem);
+      } else {
+        // New category → add new group
+        updated.push({
+          category: category,
+          items: [newItem],
+        });
+      }
+  
+      return updated;
+    });
+  
+    setCompData(true);
+    setTimeout(() => setCompData(false), 2000);
+  
     try {
       const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/addItem", {
         method: "POST",
@@ -298,29 +348,33 @@ function CashierDashboard() {
           stock: Number(stock),
           price: Number(price),
           category,
-          photo:imageURL
+          photo: imageURL,
         }),
       });
+  
       const resp = await reqs.json();
+  
       if (!reqs.ok || (Array.isArray(resp) && resp.length === 0)) {
         setItemExists(true);
+        setCompData(false);
         setTimeout(() => setItemExists(false), 2000);
         return;
       }
-      setCompData(true);
-      fetchData();
+  
+      // Reset input fields
       setPrice("");
       setStock("");
       setCategory("");
       setProdname("");
       setPhotoFile(null);
       setPhotoPreview("");
-      setTimeout(() => setCompData(false), 2000);
+  
     } catch (err) {
       alert("Some error occurred!");
       console.error("Some error occurred!", err);
     }
   };
+  
 
   // Search for items based on name and category
   const searchData = async () => {
