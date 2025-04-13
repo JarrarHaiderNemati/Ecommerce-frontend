@@ -49,6 +49,7 @@ function CashierDashboard() {
   const [photoPreview, setPhotoPreview] = useState("");   // to store preview URL
   const fileInputRef = useRef(null); //A file input ref which is triggered when a cashier clicks upload photo for an item already added
   const [selectedItem, setSelectedItem] = useState({ name: "", category: "" }); //To remember for which item the user is choosing a photo when item is alreadya added
+  const [saveCat,setSavecat]=useState(''); //Stores category of item being edited
 
   useEffect(() => {
     fetchData();
@@ -216,10 +217,11 @@ function CashierDashboard() {
     }
   };
 
-  const openEditModal = (item) => { //Displays editing modal
+  const openEditModal = (item,cat) => { //Displays editing modal which saves variables of which item is being edited
     setOriginalItemName(item.name); // store the old name
     setEditItemName(item.name); // fill the input with current name
     setShowEditModal(true);
+    setSavecat(cat);
     setEditErr(false);
   };
 
@@ -227,10 +229,30 @@ function CashierDashboard() {
     setShowEditModal(false);
     setOriginalItemName("");
     setEditItemName("");
+    setSavecat('');
     setEditErr(false);
   };
 
   const handleSaveEdit = async () => { //Handles edits we made
+
+    //Update UI Immediately
+    const prevState=structuredClone(products); //Previous state of products
+    setProducts((prev) =>
+      prev.map((item) =>
+        item.category === cat
+          ? {
+              ...item,
+              items: item.items.map((i) =>
+                i.name === originalItemName
+                  ? { ...i, name: editItemName }
+                  : i
+              ),
+            }
+          : item
+      )
+    );
+    
+
     try {
       const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/editItems", {
         method: "PUT",
@@ -242,13 +264,13 @@ function CashierDashboard() {
       });
 
       if (!reqs.ok) {
+        setProducts(prevState); //Revert the state
         setEditErr(true);
         setTimeout(() => setEditErr(false), 2000);
         return;
       }
-      // If successful, close modal and refresh
+      // If successful, close modal
       closeEditModal();
-      fetchData();
     } catch (err) {
       setEditErr(true);
       setTimeout(() => setEditErr(false), 2000);
@@ -899,7 +921,7 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
                           </button>
                           {/* Edit button */}
                           <button
-                            onClick={() => openEditModal(item)}
+                            onClick={() => openEditModal(item,categoryData.category)}
                             className="text-blue-400 hover:text-blue-300 transition-transform hover:scale-110"
                           >
                             <Edit className="w-5 h-5" />
