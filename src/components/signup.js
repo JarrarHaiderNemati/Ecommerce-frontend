@@ -40,7 +40,7 @@ function Signup() {
     }
     try {
       setLoading(true); //Show loading / validating msg
-      const req = await fetch("http://localhost:5000/signup", {
+      const req = await fetch("https://ecommerce-backend-irak.onrender.com/signup", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

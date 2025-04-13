@@ -45,7 +45,7 @@ function Login() {
     }
     setRedMSg(true);
     try {
-      const req = await fetch("http://localhost:5000/login", {
+      const req = await fetch("https://ecommerce-backend-irak.onrender.com/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, role }),

@@ -84,7 +84,7 @@ function CashierDashboard() {
     );
     setInstock(false); //Set error in incrmeeting stock to false as well
     try {
-      const reqs = await fetch("http://localhost:5000/addStock", {
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/addStock", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: item.name }),
@@ -135,7 +135,7 @@ function CashierDashboard() {
     setNegstock(false);
 
     try {
-      const reqs = await fetch("http://localhost:5000/removeStock", {
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/removeStock", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: item.name }),
@@ -165,7 +165,7 @@ function CashierDashboard() {
   // Fetch all items
   const fetchData = async () => {
     try {
-      const reqs = await fetch("http://localhost:5000/fetchItems");
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/fetchItems");
       if (reqs.ok) {
         const data = await reqs.json();
         setProducts(data);
@@ -194,7 +194,7 @@ function CashierDashboard() {
     try { 
       console.log('Inside try block of deleteItem()');
       const response = await fetch(
-        `http://localhost:5000/deleteItem?name=${name}`,
+        `https://ecommerce-backend-irak.onrender.com/deleteItem?name=${name}`,
         {
           method: "DELETE",
         }
@@ -232,7 +232,7 @@ function CashierDashboard() {
 
   const handleSaveEdit = async () => { //Handles edits we made
     try {
-      const reqs = await fetch("http://localhost:5000/editItems", {
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/editItems", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -268,7 +268,7 @@ function CashierDashboard() {
       return;
     }
     try {
-      const reqs = await fetch("http://localhost:5000/addItem", {
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/addItem", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -309,7 +309,7 @@ function CashierDashboard() {
     }
     try {
       const reqs = await fetch(
-        `http://localhost:5000/searchItems?category=${searchCategory}&name=${search}`
+        `https://ecommerce-backend-irak.onrender.com/searchItems?category=${searchCategory}&name=${search}`
       );
       if (reqs.ok) {
         const resp = await reqs.json();
@@ -346,7 +346,7 @@ function CashierDashboard() {
     console.log("Inside addNewdiscount ! Value of name is ",name," and value of category is ",cat," and value of price is ",price);
     try {
       console.log("Inside try block of addNewdiscount");
-      const reqs = await fetch("http://localhost:5000/addDiscount", {
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/addDiscount", {
         // Adding new discount
         method: "POST",
         headers: {
@@ -381,7 +381,7 @@ function CashierDashboard() {
   const fetchDiscount = async () => { //Fetches items that have a discount
     console.log("Inside fetchDiscount function !");
     try {
-      const reqs = await fetch("http://localhost:5000/fetchDiscounts");
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/fetchDiscounts");
       if (reqs.ok) {
         const resp=await reqs.json(); //Convert resp to JS object
         setDiscountexists(resp); // Set discount exists to the retrieved info
@@ -418,7 +418,7 @@ function CashierDashboard() {
 
     try {
       console.log("Inside try block of removeDiscount()");
-      const reqs = await fetch(`http://localhost:5000/removeDiscount?name=${name}`, {
+      const reqs = await fetch(`https://ecommerce-backend-irak.onrender.com/removeDiscount?name=${name}`, {
         method: "DELETE",
         headers: {
           "content-type": "application/json",
@@ -454,7 +454,7 @@ function CashierDashboard() {
 
     try{
       console.log('Inside try block of uploadImg!');
-      const res = await fetch("http://localhost:5000/uploadPhoto", {
+      const res = await fetch("https://ecommerce-backend-irak.onrender.com/uploadPhoto", {
       method: "POST",
       body: formData,
     });
@@ -497,7 +497,7 @@ const removePhoto=async (name,cat)=>{ //Remove photo of item
   try{
   //Call the endpoint to actually delete the photo from backend
   console.log('Inside try block of removePhoto ! ');  
-  const reqs=await fetch('http://localhost:5000/deletePhoto',{
+  const reqs=await fetch('https://ecommerce-backend-irak.onrender.com/deletePhoto',{
     method:'DELETE',
     headers: {
       "Content-Type": "application/json"
@@ -532,7 +532,7 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
   formData.append('photo', file);
 
   try {
-    const res = await fetch("http://localhost:5000/uploadPhoto", {
+    const res = await fetch("https://ecommerce-backend-irak.onrender.com/uploadPhoto", {
       method: "POST",
       body: formData
     });
@@ -557,7 +557,7 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
         )
       );
       setSelectedItem({name:'',category:''}); //No item selected now 
-    const res2=await fetch('http://localhost:5000/updatePhoto',{
+    const res2=await fetch('https://ecommerce-backend-irak.onrender.com/updatePhoto',{
       method:'PUT',
       headers:{
         'content-type':'application/json'
@@ -855,8 +855,8 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
                         <img
                             src={
                               item.photo
-                                ? `http://localhost:5000${item.photo}`
-                                : `http://localhost:5000/uploads/default.png`
+                                ? `https://ecommerce-backend-irak.onrender.com${item.photo}`
+                                : `https://ecommerce-backend-irak.onrender.com/uploads/default.png`
                             }
                             alt={item.name}
                             className="w-16 h-16 object-cover rounded border border-white/20"

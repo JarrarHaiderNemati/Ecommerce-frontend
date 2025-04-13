@@ -18,7 +18,7 @@ function Orderhistory() {
     console.log('About to fetch user history ! ');
     try{
     console.log('Inside try block of getUserhistory()');
-    const reqs=await fetch(`http://localhost:5000/usercartHistory?email=${user_email}`);
+    const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/usercartHistory?email=${user_email}`);
     if(reqs.ok) {
       const resp=await reqs.json();
       setOrders(resp); //Set the orders to the order history returned

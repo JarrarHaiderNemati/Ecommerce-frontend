@@ -20,7 +20,7 @@ function CustomerDashboard() {
     }
     setCusnameerr(false);
     try{
-      const reqs=await fetch(`http://localhost:5000/cusName/${user_email}`);
+      const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/cusName/${user_email}`);
       if(reqs.ok) {
         const res=await reqs.json();
         setCusname(res.name);

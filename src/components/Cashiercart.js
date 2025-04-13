@@ -8,8 +8,6 @@ function CashierCart() {
   const [total, setTotal] = useState(0);
   const [cashReceived, setCashRecieved] = useState(0);
   const [change, setChange] = useState(0);
-  const [cartErr, setCarterr] = useState(false); 
-  const [cashErr, setCasherr] = useState(false);
   const [lessAmount,setLessamount]=useState(false);
 
   // Search-related states
@@ -60,7 +58,7 @@ function CashierCart() {
     }
     try {
       const reqs = await fetch( 
-        `http://localhost:5000/getCart?name=${searchTerm}&detail=simple`
+        `https://ecommerce-backend-irak.onrender.com/getCart?name=${searchTerm}&detail=simple`
       );
       if (reqs.ok) {
         const res = await reqs.json();
@@ -84,7 +82,7 @@ function CashierCart() {
     if (!stockObj[n]) { //If item is being added in final result for first time then only 1 quantity
       try {
         const reqs = await fetch(
-          `http://localhost:5000/getCart?name=${n}&detail=cart`
+          `https://ecommerce-backend-irak.onrender.com/getCart?name=${n}&detail=cart`
         );
         if (reqs.ok) {
           setCarterr(false);

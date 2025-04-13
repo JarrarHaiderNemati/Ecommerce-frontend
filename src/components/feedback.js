@@ -44,7 +44,7 @@ function FeedbackForm() {
     setProcessing(true); //Display processing
     try{
       console.log('About to post feedback ! ');
-      const reqs=await fetch('http://localhost:5000/postFeedback',{
+      const reqs=await fetch('https://ecommerce-backend-irak.onrender.com/postFeedback',{
         method:'POST',
         headers:{
           'content-type':'application/json'

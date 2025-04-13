@@ -35,7 +35,7 @@ function Displayitems() {
   const getDiscounts=async()=>{ //Fetches discounts
     console.log('Inside getDiscounts()');
     try {
-      const reqs = await fetch("http://localhost:5000/fetchDiscounts");
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/fetchDiscounts");
       if (reqs.ok) {
         const resp=await reqs.json(); //Convert resp to JS object
         setDiscountsPresent(resp); // Set discount exists to the retrieved info
@@ -52,7 +52,7 @@ function Displayitems() {
   // Get availble itesm stocks
   const getStock = async () => { 
     try {
-      const reqs = await fetch("http://localhost:5000/getStock");
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/getStock");
       if (reqs.ok) {
         const resp = await reqs.json();
         setStocks(resp);
@@ -65,7 +65,7 @@ function Displayitems() {
   // Fetch items from backend
   const getItems = async () => {
     try {
-      const reqs = await fetch("http://localhost:5000/fetchItems");
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/fetchItems");
       if (reqs.ok) {
         const resp = await reqs.json();
         setItems(resp);
@@ -84,7 +84,7 @@ function Displayitems() {
     const user_email=sessionStorage.getItem('user_email');
     console.log('Calling getUrCart ! ');
     try{
-    const reqs=await fetch(`http://localhost:5000/getUrcart?email=${user_email}`);
+    const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/getUrcart?email=${user_email}`);
     
     if(reqs.ok) {
       console.log('INSIDE reqs.ok');
@@ -142,14 +142,14 @@ function Displayitems() {
         }
       });
 
-      const stockReq = await fetch("http://localhost:5000/removeStock", {
+      const stockReq = await fetch("https://ecommerce-backend-irak.onrender.com/removeStock", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: item.name }),
       });
       localStorage.setItem("stockUp", Date.now()); //Alert other components
       
-      const reqs = await fetch("http://localhost:5000/postUrCart", {
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/postUrCart", {
         method: "POST",
         headers: { 
             "Content-Type": "application/json"  // ✅ Required for JSON requests!
@@ -200,7 +200,7 @@ function Displayitems() {
           }
         });
       
-        await fetch("http://localhost:5000/addStock", { //increment stock in market
+        await fetch("https://ecommerce-backend-irak.onrender.com/addStock", { //increment stock in market
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: item.name }),
@@ -208,7 +208,7 @@ function Displayitems() {
   
       localStorage.setItem("stockUp", Date.now()); //Alert other components
 
-      const reqs=await fetch(`http://localhost:5000/deleteItem?email=${user_email}&name=${item.name}`);  //Delete from cart if last item
+      const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/deleteItem?email=${user_email}&name=${item.name}`);  //Delete from cart if last item
       if(!reqs.ok) { //Revert state changes
         setItemsbought(previousState);
         setStockbought(previousState);
@@ -251,7 +251,7 @@ function Displayitems() {
     });
   
     // ✅ Add stock in market
-    await fetch("http://localhost:5000/addStock", {
+    await fetch("https://ecommerce-backend-irak.onrender.com/addStock", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: item.name }),
@@ -259,7 +259,7 @@ function Displayitems() {
   
     localStorage.setItem("stockUp", Date.now()); //Alert other components
   
-    const reqs=await fetch("http://localhost:5000/postUrCart", { //decrement quantity in ur cart
+    const reqs=await fetch("https://ecommerce-backend-irak.onrender.com/postUrCart", { //decrement quantity in ur cart
       method: "POST",
       headers: { 
         "Content-Type": "application/json"  // ✅ Required for JSON requests!
@@ -292,7 +292,7 @@ function Displayitems() {
         return;
       }
     console.log('Inside try block of callSearch');
-    const reqs=await fetch(`http://localhost:5000/searchItems?name=${e.target.value}`); //fetching search results from backend
+    const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/searchItems?name=${e.target.value}`); //fetching search results from backend
     if(reqs.ok) {
       console.log('Successfully retrieved search results ! ');
       const resp=await reqs.json();

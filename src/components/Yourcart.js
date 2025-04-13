@@ -16,7 +16,7 @@ function Yourcart() {
   const getStock = async () => { //Getting stocks of items in market
     console.log('getStock executed ! ');
     try {
-      const reqs = await fetch("http://localhost:5000/getStock");
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/getStock");
       if (reqs.ok) {
         const resp = await reqs.json();
         setStocks(resp); //Setting stock of item in market
@@ -35,7 +35,7 @@ function Yourcart() {
       return false;
     }
     try {
-      const reqs = await fetch(`http://localhost:5000/getUrcart?email=${user_email}`);
+      const reqs = await fetch(`https://ecommerce-backend-irak.onrender.com/getUrcart?email=${user_email}`);
       if (reqs.ok) {
         const resp = await reqs.json();
         setProducts(Object.values(resp));
@@ -92,14 +92,14 @@ function Yourcart() {
       });
       try{
       console.log('CALLING APIs ! ');
-     const req2= await fetch("http://localhost:5000/removeStock", {
+     const req2= await fetch("https://ecommerce-backend-irak.onrender.com/removeStock", {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: item.name }),
       });
       localStorage.setItem("stockUp", Date.now());
     
-      const reqs = await fetch("http://localhost:5000/postUrCart", {
+      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/postUrCart", {
         method: "POST",
         headers: { 
             "Content-Type": "application/json"  // ✅ Required for JSON requests!
@@ -162,7 +162,7 @@ function Yourcart() {
       );
       const {[item.name]:_,...rest}=stockOfBought; //Creates a new object rest without [item.name] key but everything else included
 
-      const reqs1=await fetch("http://localhost:5000/addStock", { //increment stock in market
+      const reqs1=await fetch("https://ecommerce-backend-irak.onrender.com/addStock", { //increment stock in market
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: item.name }),
@@ -170,7 +170,7 @@ function Yourcart() {
   
       localStorage.setItem("stockUp", Date.now());
 
-      const reqs=await fetch(`http://localhost:5000/deleteItem?email=${user_email}&name=${item.name}`);  //delete from cart
+      const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/deleteItem?email=${user_email}&name=${item.name}`);  //delete from cart
 
       if(!reqs.ok||!reqs1.ok) { //if any api request fails , then revert the states 
         console.log("API request failed , reverting states ! ");
@@ -218,7 +218,7 @@ function Yourcart() {
     )
   );
     // Add stock in market
-    const reqs1=await fetch("http://localhost:5000/addStock", {
+    const reqs1=await fetch("https://ecommerce-backend-irak.onrender.com/addStock", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: item.name }),
@@ -226,7 +226,7 @@ function Yourcart() {
   
     localStorage.setItem("stockUp", Date.now());
 
-    const reqs=await fetch("http://localhost:5000/postUrCart", { //decrement quantity in ur cart
+    const reqs=await fetch("https://ecommerce-backend-irak.onrender.com/postUrCart", { //decrement quantity in ur cart
       method: "POST",
       headers: { 
         "Content-Type": "application/json"  // Required for JSON requests
@@ -254,7 +254,7 @@ function Yourcart() {
       console.log('INSIDE IF BLOCK !');
       try{
         console.log('About to call clear cart endpoint ! ');
-        const reqs=await fetch('http://localhost:5000/clearCart',{
+        const reqs=await fetch('https://ecommerce-backend-irak.onrender.com/clearCart',{
           method:'POST',
           headers:{
              "Content-Type": "application/json" 
@@ -277,7 +277,7 @@ function Yourcart() {
                 const quantity=element.quantity;
                 console.log('Updating stock for:', name);
         
-                const response = await fetch("http://localhost:5000/restoreItems", { 
+                const response = await fetch("https://ecommerce-backend-irak.onrender.com/restoreItems", { 
                   method: "PUT",
                   headers: { "Content-Type": "application/json" },
                   body: JSON.stringify({ name: name,quantity:quantity }),
@@ -339,7 +339,7 @@ function Yourcart() {
 
     try{
       console.log('Inside try block of confirmItem !');
-      const reqs=await fetch('http://localhost:5000/cartHistory',{
+      const reqs=await fetch('https://ecommerce-backend-irak.onrender.com/cartHistory',{
         method:'POST',
         headers:{
           'content-type':'application/json'
@@ -351,7 +351,7 @@ function Yourcart() {
       });
       
       if(reqs.ok) {
-        const reqs1=await fetch(`http://localhost:5000/deleteItem?email=${user_email}&name=${item.name}`);  //Delete item from cart
+        const reqs1=await fetch(`https://ecommerce-backend-irak.onrender.com/deleteItem?email=${user_email}&name=${item.name}`);  //Delete item from cart
         if(reqs1.ok) {
           console.log('Successfully deleted item from cart in backend (deleteUrCart working fine)!');
           localStorage.setItem('alertDisp','removeOne'); //Alert displayItems.js that one item has been removed from current user's cart 
@@ -380,7 +380,7 @@ function Yourcart() {
     console.log('Inside confirmAll() !');
     try{
       console.log('Inside try block of confirmAll ! ');
-      const reqs=await fetch('http://localhost:5000/cartHistory',{ //save cart history
+      const reqs=await fetch('https://ecommerce-backend-irak.onrender.com/cartHistory',{ //save cart history
         method:'POST',
         headers:{
           'content-type':'application/json'
@@ -390,7 +390,7 @@ function Yourcart() {
         })
       });
       if(reqs.ok) {
-        const reqs1=await fetch('http://localhost:5000/clearCart',{ //call Clear cart
+        const reqs1=await fetch('https://ecommerce-backend-irak.onrender.com/clearCart',{ //call Clear cart
           method:'POST',
           headers:{
              "Content-Type": "application/json" 
@@ -445,8 +445,8 @@ function Yourcart() {
                         <img
                           src={
                             item.photo
-                              ? `http://localhost:5000${item.photo}`
-                              : `http://localhost:5000/uploads/default.png`
+                              ? `https://ecommerce-backend-irak.onrender.com${item.photo}`
+                              : `https://ecommerce-backend-irak.onrender.com/uploads/default.png`
                           }
                           alt={item.name}
                           className="object-cover w-full h-full"
