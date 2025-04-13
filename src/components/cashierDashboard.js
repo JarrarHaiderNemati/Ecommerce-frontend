@@ -980,12 +980,12 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
             <p className="text-gray-300">No items available.</p>
           )}
           <input
-                          type="file"
-                          accept="image/*"
-                          ref={fileInputRef}
-                          onChange={handlePhotoChange2}
-                          className="hidden"
-                     />
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handlePhotoChange2}
+              className="hidden"
+         />
         </div>
       </div>
 
@@ -1004,7 +1004,7 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
             />
             <div className="flex justify-end gap-3">
               <button
-                onClick={closeEditModal}
+                onClick={()=>{setShowEditModal(false);closeEditModal()}}
                 className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 transform hover:scale-105 transition-all"
               >
                 Cancel
