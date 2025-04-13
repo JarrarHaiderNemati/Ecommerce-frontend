@@ -710,7 +710,9 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
           />
           <label className="bg-white/20 border border-white/20 text-white p-2 rounded w-full cursor-pointer text-sm font-medium hover:bg-white/30 transition-all text-center">
               Upload Photo
-              <input
+              <input //Use key with date.now to force it to think as a new input , so onChange can be triggered without probelm ,
+              //else onChange wont trigger when you cross current preview and choose same photo again
+
                 key={resetFileKey} // Force re-render of the input when key changes
                 type="file"
                 accept="image/*"
@@ -719,8 +721,6 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
                 ref={fileInputRef}
               />
             </label>
-
-
           <select
             className="bg-white/20 border border-white/20 text-black placeholder-gray-500 p-2 rounded w-full focus:outline-none focus:ring-2 focus:ring-pink-400 transition-all"
             value={category}
