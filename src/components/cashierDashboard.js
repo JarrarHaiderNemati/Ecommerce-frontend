@@ -239,7 +239,7 @@ function CashierDashboard() {
     const prevState=structuredClone(products); //Previous state of products
     setProducts((prev) =>
       prev.map((item) =>
-        item.category === cat
+        item.category === saveCat
           ? {
               ...item,
               items: item.items.map((i) =>
