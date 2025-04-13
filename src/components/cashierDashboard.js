@@ -12,12 +12,13 @@ import {
 import { Link } from "react-router-dom";
 
 function CashierDashboard() {
-  const [prodName, setProdname] = useState("");
-  const [stock, setStock] = useState("");
-  const [price, setPrice] = useState("");
-  const [category, setCategory] = useState("");
+  fileInputRef=useRef(null);
+  const [prodName, setProdname] = useState(""); //Item name which we are about to add
+  const [stock, setStock] = useState(""); //Stock of item which we are about to add
+  const [price, setPrice] = useState(""); //Price of item which we are about to add
+  const [category, setCategory] = useState(""); //Category of item which we are about to add
 
-  const [search, setSearch] = useState("");
+  const [search, setSearch] = useState(""); 
   const [searchCategory, setSearchCategory] = useState("");
 
   const [products, setProducts] = useState([]); //List of all products
@@ -51,7 +52,7 @@ function CashierDashboard() {
   const [selectedItem, setSelectedItem] = useState({ name: "", category: "" }); //To remember for which item the user is choosing a photo when item is alreadya added
   const [saveCat,setSavecat]=useState(''); //Stores category of item being edited
 
-  useEffect(() => {
+  useEffect(() => { //Photo issue in add item and when we cross photo in preview , and after that when we select weird behaviour
     fetchData();
     fetchDiscount();
   }, []);
@@ -373,8 +374,7 @@ function CashierDashboard() {
       alert("Some error occurred!");
       console.error("Some error occurred!", err);
     }
-  };
-  
+  };  
 
   // Search for items based on name and category
   const searchData = async () => {
@@ -715,6 +715,7 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
                 accept="image/*"
                 onChange={handlePhotoChange}
                 className="hidden"
+                ref={fileInputRef}
               />
             </label>
 
@@ -746,7 +747,12 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
               className="w-full h-full object-cover rounded border border-white/30"
             />
             <button
-              onClick={()=>{setPhotoPreview('');setPhotoFile(null)}}
+              onClick={()=>{
+                setPhotoPreview('');
+                setPhotoFile(null);
+                if (fileInputRef.current) {
+                fileInputRef.current.value = ""; // reset the file input value
+              }}}
               className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-md transition-all"
               title="Remove Photo"
             >
