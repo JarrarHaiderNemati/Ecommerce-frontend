@@ -251,8 +251,7 @@ function CashierDashboard() {
           : item
       )
     );
-    
-
+    closeEditModal(); //Call it to clear variables
     try {
       const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/editItems", {
         method: "PUT",
@@ -269,8 +268,7 @@ function CashierDashboard() {
         setTimeout(() => setEditErr(false), 2000);
         return;
       }
-      // If successful, close modal
-      closeEditModal();
+      
     } catch (err) {
       setEditErr(true);
       setTimeout(() => setEditErr(false), 2000);
