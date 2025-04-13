@@ -31,8 +31,7 @@ function CashierCart() {
   // Calculate change based on cash received
   const handleCalculateChange = () => {
     if (cashReceived === 0) {
-      setCasherr(true);
-      setTimeout(()=>setCasherr(false),2000);
+      alert("No cash recieved ! ");
       return;
     }
     if(cashReceived<total) {
@@ -41,7 +40,6 @@ function CashierCart() {
       setTimeout(()=>setLessamount(false),2000);
       return;
     }
-    setCarterr(false);
     setLessamount(false);
     setCashRecieved(0);
     setChange(Math.abs(total - cashReceived)); //Calculate change
@@ -85,7 +83,6 @@ function CashierCart() {
           `https://ecommerce-backend-irak.onrender.com/getCart?name=${n}&detail=cart`
         );
         if (reqs.ok) {
-          setCarterr(false);
           const resp = await reqs.json();
           setCart([...cart, resp]);
           setStockobj((prevStock) => ({
@@ -95,9 +92,7 @@ function CashierCart() {
           calcTotal(p);
           return;
         }
-        setCarterr(true);
       } catch (err) {
-        setCarterr(true);
       }
     } else { //If item is being added in final result not for first time then quantity + 1s
       setStockobj((prevStock) => ({
