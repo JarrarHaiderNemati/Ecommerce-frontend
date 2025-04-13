@@ -225,12 +225,10 @@ function CashierDashboard() {
     setEditErr(false);
   };
 
-  const closeEditModal = () => { //Hides the editing modal
-    setShowEditModal(false);
+  const closeEditModal = () => { //Clears editing variables
     setOriginalItemName("");
     setEditItemName("");
     setSavecat('');
-    setEditErr(false);
   };
 
   const handleSaveEdit = async () => { //Handles edits we made
@@ -251,7 +249,8 @@ function CashierDashboard() {
           : item
       )
     );
-    closeEditModal(); //Call it to clear variables
+    setShowEditModal(false); //Hide edit modal
+
     try {
       const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/editItems", {
         method: "PUT",
@@ -266,8 +265,11 @@ function CashierDashboard() {
         setProducts(prevState); //Revert the state
         setEditErr(true);
         setTimeout(() => setEditErr(false), 2000);
+        closeEditModal(); //Clears editing variables
         return;
       }
+      closeEditModal(); //If successful clears editing variables
+      setEditErr(false); //No editing error
       
     } catch (err) {
       setEditErr(true);
