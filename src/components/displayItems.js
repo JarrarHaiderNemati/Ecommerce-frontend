@@ -366,7 +366,7 @@ function Displayitems() {
                     <div className="w-full h-40 bg-gray-200 rounded mb-4 overflow-hidden flex items-center justify-center">
 
                     <img
-                      src={item.photo ? `http://localhost:5000${item.photo}` : `http://localhost:5000/uploads/default.png`}
+                      src={item.photo ? `https://ecommerce-backend-irak.onrender.com${item.photo}` : `https://ecommerce-backend-irak.onrender.com/uploads/default.png`}
                       alt={item.name}
                       className="h-full w-auto object-contain"
                     />
