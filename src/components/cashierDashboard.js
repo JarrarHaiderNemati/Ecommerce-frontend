@@ -50,6 +50,7 @@ function CashierDashboard() {
   const fileInputRef = useRef(null); //A file input ref which is triggered when a cashier clicks upload photo for an item already added
   const [selectedItem, setSelectedItem] = useState({ name: "", category: "" }); //To remember for which item the user is choosing a photo when item is alreadya added
   const [saveCat,setSavecat]=useState(''); //Stores category of item being edited
+  const [resetFileKey, setResetFileKey] = useState(Date.now()); //Used for <input> of photo , to think its a new input everytime
 
   useEffect(() => { //Photo issue in add item and when we cross photo in preview , and after that when we select weird behaviour
     fetchData();
@@ -710,6 +711,7 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
           <label className="bg-white/20 border border-white/20 text-white p-2 rounded w-full cursor-pointer text-sm font-medium hover:bg-white/30 transition-all text-center">
               Upload Photo
               <input
+                key={resetFileKey} // Force re-render of the input when key changes
                 type="file"
                 accept="image/*"
                 onChange={handlePhotoChange}
@@ -751,7 +753,9 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
                 setPhotoFile(null);
                 if (fileInputRef.current) {
                 fileInputRef.current.value = ""; // reset the file input value
-              }}}
+              }
+              setResetFileKey(Date.now()); // Change the key → forces React to reset file input
+            }}
               className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full p-1 hover:bg-red-600 shadow-md transition-all"
               title="Remove Photo"
             >
