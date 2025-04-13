@@ -12,7 +12,6 @@ import {
 import { Link } from "react-router-dom";
 
 function CashierDashboard() {
-  fileInputRef=useRef(null);
   const [prodName, setProdname] = useState(""); //Item name which we are about to add
   const [stock, setStock] = useState(""); //Stock of item which we are about to add
   const [price, setPrice] = useState(""); //Price of item which we are about to add
