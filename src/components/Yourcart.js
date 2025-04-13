@@ -160,7 +160,6 @@ function Yourcart() {
       setProducts((prev)=> //Removing the product from the products array , i.e your cart
         prev.filter((i)=>i.name!==item.name)
       );
-      const {[item.name]:_,...rest}=stockOfBought; //Creates a new object rest without [item.name] key but everything else included
 
       const reqs1=await fetch("https://ecommerce-backend-irak.onrender.com/addStock", { //increment stock in market
         method: "PUT",
@@ -270,7 +269,7 @@ function Yourcart() {
           //Logic to store the value of promise for each request and storing the status of each in results as an object
           const indexTracker=[]; //Array to store the indices ( which failed ) so that we can use them easily in products
           console.log('About to fetch the promises ! ');
-          const results = await Promise.all(
+          await Promise.all(
             previousState.map(async (element,counter) => { //Counter is the index #
               try {
                 const name = element.name;

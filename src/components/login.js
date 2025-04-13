@@ -21,7 +21,7 @@ function Login() {
     if (redirect){
         navigate("/casDashboard");
     }
-  }, [redirect, role]);
+  }, [redirect, role , navigate]);
 
   const validateEmail = (email) => { //Validate email
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
