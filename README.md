@@ -1,70 +1,97 @@
-# Getting Started with Create React App
+MangoMerce – E-commerce Platform 
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Live Link: [https://mangomerce.netlify.app]
 
-## Available Scripts
+📋 Description:
+MangoMerce is a full-stack e-commerce platform featuring two dashboards:
 
-In the project directory, you can run:
+- 🧑‍💼 Cashier Dashboard:  
+  Add, edit, and manage products, photos, discounts, and stock.  
+  At checkout, enter cash received and get the exact amount of change to return — mimicking real in-store POS systems.
 
-### `npm start`
+- 👥 Customer Dashboard:  
+  Browse items, manage cart with quantities, and give feedback after a simulated purchase (no payment integration).
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Built entirely with the MERN stack, it's great for shops, mini-markets, or as a freelance project.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+🚀 Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+🔐 Auth
+- Role-based login/signup (Cashier & Customer)
+- Max 'x' number of cashiers allowed , where x=3 in my case in the variable declared inside server.js
 
-### `npm run build`
+🧑‍💼 Cashier Dashboard
+- Add / Edit / Delete items
+- Upload / remove product images
+- Apply / remove discounts
+- Increase / decrease stock
+- Group items by category
+- See feedback by users
+- Real-time stock reflection
+- Responsive UI
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+👥 Customer Dashboard
+- Add to cart by category
+- Increase / decrease item quantity
+- View total price
+- Submit feedback (1–5 stars)
+- Feedback grouped by rating
+- View own cart history
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+🛠️ Tech Stack
+- Frontend: React, Tailwind CSS, React Router
+- Backend: Node.js, Express.js
+- Database: MongoDB (via Mongoose)
+- Other Tools: Multer for image uploads
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+⚙️ How to Run Locally
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+1. Clone the repo (both frontend repo and backend repo)
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+FRONTEND:
+```bash
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+git clone https://github.com/JarrarHaiderNemati/Ecommerce-frontend.git
+cd Ecommerce-frontend
+npm install
+npm start
 
-## Learn More
+BACKEND:
+```bash
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+git clone https://github.com/JarrarHaiderNemati/Ecommerce-backend.git
+cd Ecommerce-backend
+npm install
+node server.js
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+2.Create a '.env' file in the 'BackendDeployment' root folder with the following:
 
-### Code Splitting
+.env
+MONGO_URI=your_mongodb_connection_string
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+3.Then in config.js 
 
-### Analyzing the Bundle Size
+require('dotenv').config();
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+module.exports = {
+  MONGO_URI: process.env.MONGO_URI
+};
 
-### Making a Progressive Web App
+(You can get a MONGO_URI by signing up in MONGO_DB , creating a project and then a cluster , then adding a user , after that you will be given MONGO_URI)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+* IMP NOTE * : If you aim to push this project in GitHub , then in .gitignore file you must write .env , or else anyone can access your MONGO_DB URI and manipulate data
 
-### Advanced Configuration
+3.Your data models (schemas) should be located in the models/ directory (currently my schemas are present there)
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+4.Inside server.js (in BackendDeployment folder) , remove the variable 'liveFrontendLink' because you will be testing locally.
 
-### Deployment
+5.Inside all js files (in Frontend/src/components folder) , replace the value of variable 'backendLink' with "http://localhost:5000" because you will be testing locally.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+📦 License:
+Free for personal, educational, or freelance usage. Attribution appreciated!
