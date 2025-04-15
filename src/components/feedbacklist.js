@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+const backendLink = "https://ecommerce-backend-irak.onrender.com"; //Backend link stored in a variable
+
 function FeedBackList() {
   const [feedbackList, setFeedbackList] = useState([]); //List of feedbacks
   const [email, setEmail] = useState("");
@@ -24,12 +26,12 @@ function FeedBackList() {
       }
       try {
         const loggedRes = await fetch(
-          `https://ecommerce-backend-irak.onrender.com?email=${sessionStorage.getItem("user_email")}`
+          `${backendLink}?email=${sessionStorage.getItem("user_email")}`
         );
-        const feedbackRes = await fetch(`https://ecommerce-backend-irak.onrender.com/feedBacklist?loggedEmail=${sessionStorage.getItem("user_email")}`);
+        const feedbackRes = await fetch(`${backendLink}/feedBacklist?loggedEmail=${sessionStorage.getItem("user_email")}`);
         setEmail(sessionStorage.getItem("user_email"));
 
-        const thresholdRes=await fetch('https://ecommerce-backend-irak.onrender.com/thresholdValue');
+        const thresholdRes=await fetch(`${backendLink}/thresholdValue`);
 
         const feedbackData = await feedbackRes.json();
         const loggedData = loggedRes.ok ? await loggedRes.json() : null;
@@ -42,7 +44,7 @@ function FeedBackList() {
         console.log("Error in fetchData:", err);
       }
 
-      const totalRequest=await fetch(`https://ecommerce-backend-irak.onrender.com/totalFeedbacks?email=${sessionStorage.getItem("user_email")}`);
+      const totalRequest=await fetch(`${backendLink}/totalFeedbacks?email=${sessionStorage.getItem("user_email")}`);
       if(totalRequest.ok) {
         const totalResponse=await totalRequest.json();
         setTotalFeedbacks(totalResponse);
@@ -74,7 +76,7 @@ function FeedBackList() {
     const prevLog = structuredClone(logFeedback);
     setLogFeedback([]);
     try {
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/deleteFeedback", {
+      const reqs = await fetch(`${backendLink}/deleteFeedback`, {
         method: "DELETE",
         headers: {
           "content-type": "application/json"
@@ -98,7 +100,7 @@ function FeedBackList() {
     try{
       console.log('Inside try block of handleShowmore ! ');
       const num=loadedFeedbackCounts[rating].currentCount;  //Retrieve the current number of feedbacks displayed for the rating
-      const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/showMorefeedbacks?email=${email}&currentNum=${num}&rating=${rating}`);
+      const reqs=await fetch(`${backendLink}/showMorefeedbacks?email=${email}&currentNum=${num}&rating=${rating}`);
       let lengthOfresponse=0; //Store length of array returned in response 
 
       if(reqs.ok) {

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import stores from '../stores.webp'
 
+const backendLink = "https://ecommerce-backend-irak.onrender.com"; //Backend link stored in a variable
+
 function Signup() {
   const [name, setName] = useState(""); //Stores name 
   const [email, setEmail] = useState(""); //Stores email
@@ -40,7 +42,7 @@ function Signup() {
     }
     try {
       setLoading(true); //Show loading / validating msg
-      const req = await fetch("https://ecommerce-backend-irak.onrender.com/signup", {
+      const req = await fetch(`${backendLink}/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

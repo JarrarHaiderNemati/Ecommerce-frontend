@@ -1,5 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
+const backendLink = "https://ecommerce-backend-irak.onrender.com"; //Backend link stored in a variable
+
 function Displayitems() {
   const [items, setItems] = useState([]); //Items of store
   const [itemErr, setItemerr] = useState(false); //Message of error retrieinvg item
@@ -35,7 +37,7 @@ function Displayitems() {
   const getDiscounts=async()=>{ //Fetches discounts
     console.log('Inside getDiscounts()');
     try {
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/fetchDiscounts");
+      const reqs = await fetch(`${backendLink}/fetchDiscounts`);
       if (reqs.ok) {
         const resp=await reqs.json(); //Convert resp to JS object
         setDiscountsPresent(resp); // Set discount exists to the retrieved info
@@ -52,7 +54,7 @@ function Displayitems() {
   // Get availble itesm stocks
   const getStock = async () => { 
     try {
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/getStock");
+      const reqs = await fetch(`${backendLink}/getStock`);
       if (reqs.ok) {
         const resp = await reqs.json();
         setStocks(resp);
@@ -65,7 +67,7 @@ function Displayitems() {
   // Fetch items from backend
   const getItems = async () => {
     try {
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/fetchItems");
+      const reqs = await fetch(`${backendLink}/fetchItems`);
       if (reqs.ok) {
         const resp = await reqs.json();
         setItems(resp);
@@ -84,7 +86,7 @@ function Displayitems() {
     const user_email=sessionStorage.getItem('user_email');
     console.log('Calling getUrCart ! ');
     try{
-    const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/getUrcart?email=${user_email}`);
+    const reqs=await fetch(`${backendLink}/getUrcart?email=${user_email}`);
     
     if(reqs.ok) {
       console.log('INSIDE reqs.ok');
@@ -142,14 +144,14 @@ function Displayitems() {
         }
       });
 
-      const stockReq = await fetch("https://ecommerce-backend-irak.onrender.com/removeStock", {
+      const stockReq = await fetch(`${backendLink}/removeStock`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: item.name }),
       });
       localStorage.setItem("stockUp", Date.now()); //Alert other components
       
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/postUrCart", {
+      const reqs = await fetch(`${backendLink}/postUrCart`, {
         method: "POST",
         headers: { 
             "Content-Type": "application/json"  // ✅ Required for JSON requests!
@@ -200,7 +202,7 @@ function Displayitems() {
           }
         });
       
-        await fetch("https://ecommerce-backend-irak.onrender.com/addStock", { //increment stock in market
+        await fetch(`${backendLink}/addStock`, { //increment stock in market
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: item.name }),
@@ -208,7 +210,7 @@ function Displayitems() {
   
       localStorage.setItem("stockUp", Date.now()); //Alert other components
 
-      const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/deleteItem?email=${user_email}&name=${item.name}`);  //Delete from cart if last item
+      const reqs=await fetch(`${backendLink}/deleteItem?email=${user_email}&name=${item.name}`);  //Delete from cart if last item
       if(!reqs.ok) { //Revert state changes
         setItemsbought(previousState);
         setStockbought(previousState);
@@ -251,7 +253,7 @@ function Displayitems() {
     });
   
     // ✅ Add stock in market
-    await fetch("https://ecommerce-backend-irak.onrender.com/addStock", {
+    await fetch(`${backendLink}/addStock`, {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name: item.name }),
@@ -259,7 +261,7 @@ function Displayitems() {
   
     localStorage.setItem("stockUp", Date.now()); //Alert other components
   
-    const reqs=await fetch("https://ecommerce-backend-irak.onrender.com/postUrCart", { //decrement quantity in ur cart
+    const reqs=await fetch(`${backendLink}/postUrCart`, { //decrement quantity in ur cart
       method: "POST",
       headers: { 
         "Content-Type": "application/json"  // ✅ Required for JSON requests!
@@ -292,7 +294,7 @@ function Displayitems() {
         return;
       }
     console.log('Inside try block of callSearch');
-    const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/searchItems?name=${e.target.value}`); //fetching search results from backend
+    const reqs=await fetch(`${backendLink}/searchItems?name=${e.target.value}`); //fetching search results from backend
     if(reqs.ok) {
       console.log('Successfully retrieved search results ! ');
       const resp=await reqs.json();
@@ -366,7 +368,8 @@ function Displayitems() {
                     <div className="w-full h-40 bg-gray-200 rounded mb-4 overflow-hidden flex items-center justify-center">
 
                     <img
-                      src={item.photo ? `https://ecommerce-backend-irak.onrender.com${item.photo}` : `https://ecommerce-backend-irak.onrender.com/uploads/default.png`}
+                      src={item.photo ? `${backendLink}${item.photo}` 
+                      : `${backendLink}/uploads/default.png`}
                       alt={item.name}
                       className="h-full w-auto object-contain"
                     />

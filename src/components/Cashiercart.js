@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Trash2, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const backendLink="https://ecommerce-backend-irak.onrender.com"; //Backend link stored in a variable
+
 function CashierCart() {
   // Cart-related states
   const [cart, setCart] = useState([]); 
@@ -56,7 +58,7 @@ function CashierCart() {
     }
     try {
       const reqs = await fetch( 
-        `https://ecommerce-backend-irak.onrender.com/getCart?name=${searchTerm}&detail=simple`
+        `${backendLink}/getCart?name=${searchTerm}&detail=simple`
       );
       if (reqs.ok) {
         const res = await reqs.json();
@@ -80,7 +82,7 @@ function CashierCart() {
     if (!stockObj[n]) { //If item is being added in final result for first time then only 1 quantity
       try {
         const reqs = await fetch(
-          `https://ecommerce-backend-irak.onrender.com/getCart?name=${n}&detail=cart`
+          `${backendLink}/getCart?name=${n}&detail=cart`
         );
         if (reqs.ok) {
           const resp = await reqs.json();

@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
+const backendLink="https://ecommerce-backend-irak.onrender.com"; //Backend link stored in a variable
+
 function CashierDashboard() {
   const [prodName, setProdname] = useState(""); //Item name which we are about to add
   const [stock, setStock] = useState(""); //Stock of item which we are about to add
@@ -86,7 +88,7 @@ function CashierDashboard() {
     );
     setInstock(false); //Set error in incrmeeting stock to false as well
     try {
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/addStock", {
+      const reqs = await fetch(`${backendLink}/addStock`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: item.name }),
@@ -137,7 +139,7 @@ function CashierDashboard() {
     setNegstock(false);
 
     try {
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/removeStock", {
+      const reqs = await fetch(`${backendLink}/removeStock`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: item.name }),
@@ -167,7 +169,7 @@ function CashierDashboard() {
   // Fetch all items
   const fetchData = async () => {
     try {
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/fetchItems");
+      const reqs = await fetch(`${backendLink}/fetchItems`);
       if (reqs.ok) {
         const data = await reqs.json();
         setProducts(data);
@@ -196,7 +198,7 @@ function CashierDashboard() {
     try { 
       console.log('Inside try block of deleteItem()');
       const response = await fetch(
-        `https://ecommerce-backend-irak.onrender.com/deleteItem?name=${name}`,
+        `${backendLink}/deleteItem?name=${name}`,
         {
           method: "DELETE",
         }
@@ -260,7 +262,7 @@ function CashierDashboard() {
     }));
     
     try {
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/editItems", {
+      const reqs = await fetch(`${backendLink}/editItems`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -270,7 +272,7 @@ function CashierDashboard() {
       });
 
       //Also update the name in discount model else when the name changes the discount will be hidden automatically
-      const reqs2=await fetch("https://ecommerce-backend-irak.onrender.com/updateDiscountName",{ 
+      const reqs2=await fetch(`${backendLink}/updateDiscountName`,{ 
         method:'PUT',
         headers:{
           'content-type':'application/json'
@@ -341,7 +343,7 @@ function CashierDashboard() {
     setTimeout(() => setCompData(false), 2000);
   
     try {
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/addItem", {
+      const reqs = await fetch(`${backendLink}/addItem`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -385,7 +387,7 @@ function CashierDashboard() {
     }
     try {
       const reqs = await fetch(
-        `https://ecommerce-backend-irak.onrender.com/searchItems?category=${searchCategory}&name=${search}`
+        `${backendLink}/searchItems?category=${searchCategory}&name=${search}`
       );
       if (reqs.ok) {
         const resp = await reqs.json();
@@ -422,7 +424,7 @@ function CashierDashboard() {
     console.log("Inside addNewdiscount ! Value of name is ",name," and value of category is ",cat," and value of price is ",price);
     try {
       console.log("Inside try block of addNewdiscount");
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/addDiscount", {
+      const reqs = await fetch(`${backendLink}/addDiscount`, {
         // Adding new discount
         method: "POST",
         headers: {
@@ -457,7 +459,7 @@ function CashierDashboard() {
   const fetchDiscount = async () => { //Fetches items that have a discount
     console.log("Inside fetchDiscount function !");
     try {
-      const reqs = await fetch("https://ecommerce-backend-irak.onrender.com/fetchDiscounts");
+      const reqs = await fetch(`${backendLink}/fetchDiscounts`);
       if (reqs.ok) {
         const resp=await reqs.json(); //Convert resp to JS object
         setDiscountexists(resp); // Set discount exists to the retrieved info
@@ -494,7 +496,7 @@ function CashierDashboard() {
 
     try {
       console.log("Inside try block of removeDiscount()");
-      const reqs = await fetch(`https://ecommerce-backend-irak.onrender.com/removeDiscount?name=${name}`, {
+      const reqs = await fetch(`${backendLink}/removeDiscount?name=${name}`, {
         method: "DELETE",
         headers: {
           "content-type": "application/json",
@@ -530,7 +532,7 @@ function CashierDashboard() {
 
     try{
       console.log('Inside try block of uploadImg!');
-      const res = await fetch("https://ecommerce-backend-irak.onrender.com/uploadPhoto", {
+      const res = await fetch(`${backendLink}/uploadPhoto`, {
       method: "POST",
       body: formData,
     });
@@ -573,7 +575,7 @@ const removePhoto=async (name,cat)=>{ //Remove photo of item
   try{
   //Call the endpoint to actually delete the photo from backend
   console.log('Inside try block of removePhoto ! ');  
-  const reqs=await fetch('https://ecommerce-backend-irak.onrender.com/deletePhoto',{
+  const reqs=await fetch(`${backendLink}/deletePhoto`,{
     method:'DELETE',
     headers: {
       "Content-Type": "application/json"
@@ -608,7 +610,7 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
   formData.append('photo', file);
 
   try {
-    const res = await fetch("https://ecommerce-backend-irak.onrender.com/uploadPhoto", {
+    const res = await fetch(`${backendLink}/uploadPhoto`, {
       method: "POST",
       body: formData
     });
@@ -633,7 +635,7 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
         )
       );
       setSelectedItem({name:'',category:''}); //No item selected now 
-    const res2=await fetch('https://ecommerce-backend-irak.onrender.com/updatePhoto',{
+    const res2=await fetch(`${backendLink}/updatePhoto`,{
       method:'PUT',
       headers:{
         'content-type':'application/json'
@@ -940,8 +942,8 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
                         <img
                             src={
                               item.photo
-                                ? `https://ecommerce-backend-irak.onrender.com${item.photo}`
-                                : `https://ecommerce-backend-irak.onrender.com/uploads/default.png`
+                                ? `${backendLink}${item.photo}`
+                                : `${backendLink}/uploads/default.png`
                             }
                             alt={item.name}
                             className="w-16 h-16 object-cover rounded border border-white/20"

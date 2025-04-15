@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import stores from '../stores.webp'; //Import the stores picture from server folder
 
+const backendLink = "https://ecommerce-backend-irak.onrender.com"; //Backend link stored in a variable
+
 function Login() {
   const [logIn, setLoggedIn] = useState(false); //Stores log in status
   const [email, setEmail] = useState(""); //Stores email 
@@ -45,7 +47,7 @@ function Login() {
     }
     setRedMSg(true);
     try {
-      const req = await fetch("https://ecommerce-backend-irak.onrender.com/login", {
+      const req = await fetch(`${backendLink}/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, role }),

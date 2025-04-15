@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 
 //NOTE : This is same as feedbacklist.js but made different file when viewed from cashier tab because no loggedIn feedback logic
 
+const backendLink = "https://ecommerce-backend-irak.onrender.com"; //Backend link stored in a variable
+
 function CashierFeedback() {
   const [feedbackList, setFeedbackList] = useState([]); //List of feedbacks
   const [loadedFeedbackCounts, setLoadedFeedbackCounts] = useState({});
@@ -19,8 +21,8 @@ function CashierFeedback() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const feedbackRes = await fetch('https://ecommerce-backend-irak.onrender.com/CfeedBacklist');
-        const thresholdRes=await fetch('https://ecommerce-backend-irak.onrender.com/thresholdValue');
+        const feedbackRes = await fetch(`${backendLink}/CfeedBacklist`);
+        const thresholdRes=await fetch(`${backendLink}/thresholdValue`);
 
         const feedbackData = await feedbackRes.json();
         const thresholdData=thresholdRes.ok ? await thresholdRes.json() : 0;
@@ -31,7 +33,7 @@ function CashierFeedback() {
         console.log("Error in fetchData:", err);
       }
 
-      const totalRequest=await fetch('https://ecommerce-backend-irak.onrender.com/CtotalFeedbacks');
+      const totalRequest=await fetch(`${backendLink}/CtotalFeedbacks`);
       if(totalRequest.ok) {
         const totalResponse=await totalRequest.json();
         setTotalFeedbacks(totalResponse);
@@ -62,7 +64,7 @@ function CashierFeedback() {
     try{
       console.log('Inside try block of handleShowmore ! ');
       const num=loadedFeedbackCounts[rating].currentCount;  //Retrieve the current number of feedbacks displayed for the rating
-      const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/CshowMorefeedbacks?currentNum=${num}&rating=${rating}`);
+      const reqs=await fetch(`${backendLink}/CshowMorefeedbacks?currentNum=${num}&rating=${rating}`);
       let lengthOfresponse=0; //Store length of array returned in response 
 
       if(reqs.ok) {

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 
+const backendLink = "https://ecommerce-backend-irak.onrender.com"; //Backend link stored in a variable
+
 function FeedbackForm() {
   const [name, setName] = useState(""); //username
   const [email,setEmail]=useState(''); //User email
@@ -44,7 +46,7 @@ function FeedbackForm() {
     setProcessing(true); //Display processing
     try{
       console.log('About to post feedback ! ');
-      const reqs=await fetch('https://ecommerce-backend-irak.onrender.com/postFeedback',{
+      const reqs=await fetch(`${backendLink}/postFeedback`,{
         method:'POST',
         headers:{
           'content-type':'application/json'

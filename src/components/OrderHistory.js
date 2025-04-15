@@ -1,6 +1,8 @@
 import React from "react";
 import { useState,useEffect } from "react";
 
+const backendLink = "https://ecommerce-backend-irak.onrender.com"; //Backend link stored in a variable
+
 function Orderhistory() {
   const [orders,setOrders]=useState([]); // Holds all the orders user ever placed
 
@@ -18,7 +20,7 @@ function Orderhistory() {
     console.log('About to fetch user history ! ');
     try{
     console.log('Inside try block of getUserhistory()');
-    const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/usercartHistory?email=${user_email}`);
+    const reqs=await fetch(`${backendLink}/usercartHistory?email=${user_email}`);
     if(reqs.ok) {
       const resp=await reqs.json();
       setOrders(resp); //Set the orders to the order history returned

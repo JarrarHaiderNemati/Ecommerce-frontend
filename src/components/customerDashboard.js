@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
 
+const backendLink = "https://ecommerce-backend-irak.onrender.com"; //Backend link stored in a variable
+
 function CustomerDashboard() {
 
   const [cusName,setCusname]=useState(''); //Customer name 
@@ -20,7 +22,7 @@ function CustomerDashboard() {
     }
     setCusnameerr(false);
     try{
-      const reqs=await fetch(`https://ecommerce-backend-irak.onrender.com/cusName/${user_email}`);
+      const reqs=await fetch(`${backendLink}/cusName/${user_email}`);
       if(reqs.ok) {
         const res=await reqs.json();
         setCusname(res.name);
