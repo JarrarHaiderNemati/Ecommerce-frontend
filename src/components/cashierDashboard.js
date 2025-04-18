@@ -322,7 +322,7 @@ function CashierDashboard() {
         name: prodName,
         price: price,
         stock: stock,
-        photo: photoFile,
+        photo: imageURL,
       };
   
       if (categoryIndex !== -1) {
