@@ -258,6 +258,7 @@ function CashierDashboard() {
     setDiscountexists((prev) => ({ //Also edit the name in discount 
       ...prev,
       [originalItemName]: {
+        ...prev[originalItemName],
         name: editItemName
       }
     }));
