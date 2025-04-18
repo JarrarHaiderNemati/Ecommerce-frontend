@@ -320,8 +320,8 @@ function CashierDashboard() {
   
       const newItem = {
         name: prodName,
-        price: price,
-        stock: stock,
+        price: Number(price),
+        stock: Number(stock),
         photo: imageURL,
       };
   
