@@ -144,6 +144,7 @@ function Signup() {
         <div className="flex flex-col md:flex-row gap-4 mb-4">
           <button
             onClick={() => setRole("Customer")}
+            disabled={redirect}
             className={`w-full md:w-1/2 py-3 rounded-md transition ${
               role === "Customer"
                 ? "bg-blue-700 text-white"
@@ -154,6 +155,7 @@ function Signup() {
           </button>
           <button
             onClick={() => setRole("Cashier")}
+            disabled={redirect}
             className={`w-full md:w-1/2 py-3 rounded-md transition ${
               role === "Cashier"
                 ? "bg-green-700 text-white"
@@ -167,6 +169,7 @@ function Signup() {
         {/* Signup Button */}
         <button
           onClick={sendData}
+          disabled={redirect}
           className={`w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-3 rounded-md
              hover:from-blue-600 hover:to-blue-800 shadow-lg transition-transform transform hover:scale-105
              ${redirect && "opacity-50 cursor-not-allowed"}`}
