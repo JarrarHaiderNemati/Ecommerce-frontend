@@ -255,13 +255,21 @@ function CashierDashboard() {
       )
     );
     setShowEditModal(false); //Hide edit modal
-    setDiscountexists((prev) => ({ //Also edit the name in discount 
-      ...prev,
-      [originalItemName]: {
-        ...prev[originalItemName],
-        name: editItemName
-      }
-    }));
+    setDiscountexists((prev) => { //Also edit the name in discount or else the discount will be hidden when name is edited
+      const updated = structuredClone(prev);
+      const itemData = updated[originalItemName];
+    
+      // Delete the old key
+      delete updated[originalItemName];
+    
+      // Add the new key with updated name field
+      updated[editItemName] = {
+        ...itemData,
+        name: editItemName,
+      };
+    
+      return updated;
+    });
     
     try {
       const reqs = await fetch(`${backendLink}/editItems`, {
