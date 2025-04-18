@@ -45,7 +45,7 @@ function Login() {
       },1500);
       return;
     }
-    setRedMSg(true);
+    setRedMSg(true); //Show msg of redirecting
     try {
       const req = await fetch(`${backendLink}/login`, {
         method: "POST",
@@ -112,21 +112,23 @@ function Login() {
         <div className="flex flex-col md:flex-row gap-4 mb-4">
           <button
             onClick={() => setRole("Customer")}
+            disabled={redirect}
             className={`w-full md:w-1/2 py-3 rounded-md transition ${
               role === "Customer"
                 ? "bg-blue-700 text-white"
                 : "bg-blue-200 text-blue-800 hover:bg-blue-500 hover:text-white"
-            }`}
+            } ${redirect && "opacity-50 cursor-not-allowed"} `}
           >
             Customer
           </button>
           <button
             onClick={() => setRole("Cashier")}
+            disabled={redirect}
             className={`w-full md:w-1/2 py-3 rounded-md transition ${
               role === "Cashier"
                 ? "bg-green-700 text-white"
                 : "bg-green-200 text-green-800 hover:bg-green-500 hover:text-white"
-            }`}
+            } ${redirect && "opacity-50 cursor-not-allowed"}`}
           >
             Cashier
           </button>
@@ -135,7 +137,11 @@ function Login() {
         {/* Styled Login Button */}
         <button
           onClick={callLogin}
-          className="w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-3 rounded-md hover:from-blue-600 hover:to-blue-800 shadow-lg transition-transform transform hover:scale-105"
+          disabled={redirect}
+          className={`w-full bg-gradient-to-r from-blue-500 to-blue-700 text-white py-3 
+            rounded-md hover:from-blue-600 hover:to-blue-800 shadow-lg transition-transform transform hover:scale-105
+            ${redirect && "opacity-50 cursor-not-allowed"}`
+          }
         >
           Login
         </button>
