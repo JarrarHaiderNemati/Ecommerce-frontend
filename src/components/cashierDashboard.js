@@ -49,7 +49,8 @@ function CashierDashboard() {
   const [noDiscount,setNodiscount]=useState(false); //Msg to be shown when no discount is entered
   const [photoFile, setPhotoFile] = useState(null);       // to store the selected file
   const [photoPreview, setPhotoPreview] = useState("");   // to store preview URL
-  const fileInputRef = useRef(null); //A file input ref which is triggered when a cashier clicks upload photo for an item already added
+  const updatedInputRef=useRef(null); //Input ref for photo of already added item
+  const addInputRef=useRef(null); //Input ref for photo of item about to be added
   const [selectedItem, setSelectedItem] = useState({ name: "", category: "" }); //To remember for which item the user is choosing a photo when item is alreadya added
   const [saveCat,setSavecat]=useState(''); //Stores category of item being edited
   const [resetFileKey, setResetFileKey] = useState(Date.now()); //Used for <input> of photo , to think its a new input everytime
@@ -313,10 +314,12 @@ function CashierDashboard() {
       return;
     }
   
-    // Update UI
+   const previousState=structuredClone(products); //Previous state of products
+   // Update UI
     setProducts((prev) => {
-      const updated = [...prev];
+      const updated = JSON.parse(JSON.stringify(prev)); // Deep clone
       const categoryIndex = updated.findIndex((group) => group.category === category);
+      console.log('Value of updated before is : ',updated);
   
       const newItem = {
         name: prodName,
@@ -335,9 +338,13 @@ function CashierDashboard() {
           items: [newItem],
         });
       }
+
+      console.log('Value of updated after is : ',updated);
   
       return updated;
     });
+
+    console.log('Item added !!!!!! ');
   
     setCompData(true);
     setTimeout(() => setCompData(false), 2000);
@@ -359,6 +366,7 @@ function CashierDashboard() {
   
       if (!reqs.ok || (Array.isArray(resp) && resp.length === 0)) {
         setItemExists(true);
+        setProducts(previousState);
         setCompData(false);
         setTimeout(() => setItemExists(false), 2000);
         return;
@@ -371,6 +379,9 @@ function CashierDashboard() {
       setProdname("");
       setPhotoFile(null);
       setPhotoPreview("");
+      if (addInputRef.current) {
+        addInputRef.current.value = ""; // reset the file input value
+      }
   
     } catch (err) {
       alert("Some error occurred!");
@@ -598,7 +609,7 @@ catch(err) {
 
 const uploadPhoto=async (name,cat)=>{ //Simulates as if input is clicked , then later on calls backend
   setSelectedItem({name:name,category:cat}); //This the item for whom we are choosing a pic
-  fileInputRef.current.click(); //Trigger the image choosing input
+  updatedInputRef.current.click(); //Trigger the image choosing input
 };
 
 const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag , for items that have already been added and want to edit pic
@@ -650,6 +661,9 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
       console.log('/updatePhoto failed ! ');
       setProducts(previousState);
       setSelectedItem(previousSelectedItem);
+    }
+    if(updatedInputRef.current) {
+      updatedInputRef.current.value='';
     }
   } catch (err) {
     console.log("Upload failed", err);
@@ -720,7 +734,7 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
                 accept="image/*"
                 onChange={handlePhotoChange}
                 className="hidden"
-                ref={fileInputRef}
+                ref={addInputRef}
               />
             </label>
           <select
@@ -753,8 +767,8 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
               onClick={()=>{
                 setPhotoPreview('');
                 setPhotoFile(null);
-                if (fileInputRef.current) {
-                fileInputRef.current.value = ""; // reset the file input value
+                if (addInputRef.current) {
+                addInputRef.current.value = ""; // reset the file input value
               }
               setResetFileKey(Date.now()); // Change the key → forces React to reset file input
             }}
@@ -1047,7 +1061,7 @@ const handlePhotoChange2=async (e)=>{ //Onchange event for 2nd photo input tag ,
           <input
               type="file"
               accept="image/*"
-              ref={fileInputRef}
+              ref={updatedInputRef}
               onChange={handlePhotoChange2}
               className="hidden"
          />
