@@ -16,6 +16,7 @@ function Signup() {
   const [redirect, setRedirect] = useState(false); //Displays redirecting message
   const [loading,setLoading]=useState(false); //Displays loading while data is being sent to backend
   const [wrongEmail,setWrongEmail]=useState(false); //Displays invalid email format message
+  const [showDemo,setShowDemo]=useState(false); //Demo video
 
   sessionStorage.setItem("currentPage", "signup"); //Set the current page as signup
 
@@ -202,6 +203,29 @@ function Signup() {
           <div className="bg-gray-200 text-xl mt-4 p-2 rounded">
             Validating...
           </div> 
+        )}
+
+        {/* Demo Video Button */}
+      <button
+        onClick={() => setShowDemo(prev => !prev)}
+        className="w-full mt-4 bg-yellow-400 text-black py-2 rounded-md hover:bg-yellow-500 transition"
+      >
+        {showDemo ? "Hide Demo Video" : "Watch Demo Video"}
+      </button>
+
+{/* Demo Video Element */}
+      {showDemo && (
+          <div className="mt-4">
+            <video
+              controls
+              autoPlay
+              className="w-full rounded-md shadow-lg"
+              style={{ maxHeight: '300px' }}
+            >
+              <source src='/MangoMerceDemo.mp4' type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
         )}
 
         {/* Login Link */}
