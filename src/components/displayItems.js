@@ -179,7 +179,7 @@ function Displayitems() {
 
   const decreaseQuant = async (item,cat,photo) => {
     const user_email=sessionStorage.getItem('user_email');
-    const updatedCart = { ...itemsBought };
+    const updatedCart = structuredClone(itemsBought);
     if (!updatedCart[item.name]) return;
   
     // If last item in cart, remove it

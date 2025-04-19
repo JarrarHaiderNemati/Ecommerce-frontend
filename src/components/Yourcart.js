@@ -11,9 +11,12 @@ function Yourcart() {
   useEffect(() => {
     getUsercart(); //Set products of userCart
     getStock(); //Get stock of items in market 
-    
     // Call function inside useEffect
   }, []);
+
+  useEffect(()=>{
+    console.log('Your current stock ! ',products);
+  },[products]);
 
   const getStock = async () => { //Getting stocks of items in market
     console.log('getStock executed ! ');
@@ -34,7 +37,7 @@ function Yourcart() {
     console.log('User email inside getUsercart is ',user_email);
     if (!user_email) {
       alert("User not detected!");
-      return false;
+      return;
     }
     try {
       const reqs = await fetch(`${backendLink}/getUrcart?email=${user_email}`);
@@ -42,7 +45,7 @@ function Yourcart() {
         const resp = await reqs.json();
         setProducts(Object.values(resp));
         setStockbought(resp);
-        return true; //Return true as a promise
+        return;
       }
       else {
         setProducts([]); //cart is empty
@@ -51,7 +54,7 @@ function Yourcart() {
     } catch (error) {
       console.error("Error fetching cart:", error);
     }
-    return false; //Return false as a promise
+    return 
   };
 
   const handleAddToCart = async (item,cat) => { //Increase quantity in cart
@@ -111,6 +114,7 @@ function Yourcart() {
             price: item.price, 
             category: cat, 
             email: user_email, 
+            photo:item.photo||'/uploads/default.png',
             desc: "Inc" 
         }),
     });
@@ -232,7 +236,7 @@ function Yourcart() {
       headers: { 
         "Content-Type": "application/json"  // Required for JSON requests
     },
-      body: JSON.stringify({ name:item.name, price: item.price,category:cat, email: user_email, desc: "Dec" }),
+      body: JSON.stringify({ name:item.name, price: item.price,category:cat, email: user_email,photo:item.photo||'/uploads/default.png', desc: "Dec" }),
     });
     
     if(!reqs.ok||!reqs1.ok) { //If any api call fails then revert states

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Trash2, CheckCircle } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -11,6 +11,7 @@ function CashierCart() {
   const [cashReceived, setCashRecieved] = useState(0);
   const [change, setChange] = useState(0);
   const [lessAmount,setLessamount]=useState(false);
+  const [discountExists, setDiscountexists] = useState({}); // Object to track if an item has a discount already present and also the discount price
 
   // Search-related states
   const [searchTerm, setSearchTerm] = useState("");
@@ -19,6 +20,33 @@ function CashierCart() {
   const [searchErr, setSearcherr] = useState(false);
 
   const [stockObj, setStockobj] = useState({});
+
+  useEffect(()=>{
+    fetchDiscount();
+  },[])
+
+
+  useEffect(()=>{
+    console.log('Discounts value ',Object.keys(discountExists));
+  },[discountExists])
+
+  const fetchDiscount = async () => { //Fetches items that have a discount
+    console.log("Inside fetchDiscount function !");
+    try {
+      const reqs = await fetch(`${backendLink}/fetchDiscounts`);
+      if (reqs.ok) {
+        const resp=await reqs.json(); //Convert resp to JS object
+        setDiscountexists(resp); // Set discount exists to the retrieved info
+        console.log("Discounts fetched successfully !");
+      } else if (reqs.status === 404) {
+        console.log("No discounts found !");
+        setDiscountexists({}); // Make discount exists empty
+        
+      }
+    } catch (err) {
+      console.log("Some error occured inside try block of fetchDiscount() !");
+    }
+  };
 
   // Remove item from cart and update stock object
   const handleRemoveItem = (n) => {
@@ -68,10 +96,12 @@ function CashierCart() {
         return;
       }
       setSearcherr(true);
+      setTimeout(()=>setSearcherr(false,1500));
       setNosearch(false);
       setSearchResults([]);
     } catch (err) {
       setSearcherr(true);
+      setTimeout(()=>setSearcherr(false,1500));
       setNosearch(false);
       setSearchResults([]);
     }
@@ -213,10 +243,14 @@ function CashierCart() {
                                    transform hover:scale-[1.02] transition-all"
                       >
                         <td className="p-3 font-medium">{item.name}</td>
-                        <td className="p-3 font-medium">${item.price}</td>
+                        <td className="p-3 font-medium">
+                          {discountExists[item.name]
+                          ? `$${discountExists[item.name].discountPrice}`
+                             : `$${item.price}`}
+                          </td>
                         <td className="p-3 text-center">
                           <button
-                            onClick={() =>handleSelectItem(item.name, item.price)}
+                            onClick={() =>handleSelectItem(item.name, discountExists[item.name]?.discountPrice||item.price)}
                             className="text-green-400 hover:text-green-300 transition-colors"
                           >
                             <CheckCircle className="inline-block w-6 h-6" />
@@ -260,7 +294,7 @@ function CashierCart() {
                                  transform hover:scale-[1.02] transition-all"
                     >
                       <td className="p-3 font-medium">{item.name}</td>
-                      <td className="p-3 font-medium">${item.price}</td>
+                      <td className="p-3 font-medium">${discountExists[item.name]?.discountPrice||item.price}</td>
                       <td className="p-3 font-medium">
                         {stockObj[item.name]?.stock || 0}
                       </td>
