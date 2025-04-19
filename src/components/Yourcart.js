@@ -399,27 +399,6 @@ function Yourcart() {
         })
       });
       if(reqs.ok) {
-        const reqs1=await fetch(`${backendLink}/clearCart`,{ //call Clear cart
-          method:'POST',
-          headers:{
-             "Content-Type": "application/json" 
-          },
-          body:JSON.stringify({
-            email:user_email
-          })
-        }); 
-        if(reqs1.ok) {
-          console.log('Successfully cleared cart in backend API of clearCart ! ');
-          localStorage.setItem('alertDisp','removeAll') //Alert displayItems.js that all items have been removed from current user's cart
-          const result = await getUsercart(); //Fetch cart again and check the promise 
-          if(result) {
-            console.log('Successfully fetched products and userStock ! ');
-          }
-          else {
-            setProducts(previousState); //Reverting state
-            console.log('Fetching cart unsuccessful!');
-          }
-        }
         console.log('Cart history saved successfully in cartHistory backend API ! ');
       }
       else {
