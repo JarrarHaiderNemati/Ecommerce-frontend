@@ -26,7 +26,7 @@ function FeedBackList() {
       }
       try {
         const loggedRes = await fetch(
-          `${backendLink}?email=${sessionStorage.getItem("user_email")}`
+          `${backendLink}/loggedFeedback?email=${sessionStorage.getItem("user_email")}`
         );
         const feedbackRes = await fetch(`${backendLink}/feedBacklist?loggedEmail=${sessionStorage.getItem("user_email")}`);
         setEmail(sessionStorage.getItem("user_email"));
