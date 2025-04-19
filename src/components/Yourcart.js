@@ -7,6 +7,7 @@ function Yourcart() {
   const [stocks, setStocks] = useState({}); //stock of items present in market
   const [stockOfBought, setStockbought] = useState({});  //tracking the stocks of each items the user has bought
   const [proceed,setProceed]=useState(false); //Variable for showing div of proceed to checkout ( for all items in cart)
+  const [confirming,setConfirming]=useState(false); //Show confirming msg when Checkout is clicked
  
   useEffect(() => {
     getUsercart(); //Set products of userCart
@@ -384,7 +385,8 @@ function Yourcart() {
     const user_email=sessionStorage.getItem('user_email');
     console.log('Inside confirmAll() !');
     setProceed(!proceed); //Disabale prodceeding div
-    await callClear();
+    setConfirming(true); //Show clearing message
+    await callClear(); //Clear cart and update stocks
     const previousState=structuredClone(products); //Previous state of products
     try{
       console.log('Inside try block of confirmAll ! ');
@@ -400,6 +402,7 @@ function Yourcart() {
       });
       if(reqs.ok) {
         console.log('Cart history saved successfully in cartHistory backend API ! ');
+        setConfirming(false); //Disable confirming msg
       }
       else {
         setProducts(previousState); //revert state
@@ -490,6 +493,10 @@ function Yourcart() {
                 </div>
               );
             })}
+
+            {confirming&&
+              <p className="text-gray-500">Confirming Items...</p>
+            }
 
             {/* Displaying div of checkout */}
               {proceed && (
