@@ -37,7 +37,7 @@ function Yourcart() {
     console.log('User email inside getUsercart is ',user_email);
     if (!user_email) {
       alert("User not detected!");
-      return;
+      return false;
     }
     try {
       const reqs = await fetch(`${backendLink}/getUrcart?email=${user_email}`);
@@ -45,7 +45,7 @@ function Yourcart() {
         const resp = await reqs.json();
         setProducts(Object.values(resp));
         setStockbought(resp);
-        return;
+        return true;
       }
       else {
         setProducts([]); //cart is empty
@@ -54,7 +54,7 @@ function Yourcart() {
     } catch (error) {
       console.error("Error fetching cart:", error);
     }
-    return 
+    return false
   };
 
   const handleAddToCart = async (item,cat) => { //Increase quantity in cart
@@ -383,6 +383,9 @@ function Yourcart() {
   const confirmAll=async()=>{
     const user_email=sessionStorage.getItem('user_email');
     console.log('Inside confirmAll() !');
+    setProceed(!proceed); //Disabale prodceeding div
+    setProducts([]);
+    const previousState=structuredClone(products); //Previous state of products
     try{
       console.log('Inside try block of confirmAll ! ');
       const reqs=await fetch(`${backendLink}/cartHistory`,{ //save cart history
@@ -391,6 +394,7 @@ function Yourcart() {
           'content-type':'application/json'
         },
         body:JSON.stringify({
+          email:user_email,
           itemsArray:products
         })
       });
@@ -412,12 +416,14 @@ function Yourcart() {
             console.log('Successfully fetched products and userStock ! ');
           }
           else {
+            setProducts(previousState); //Reverting state
             console.log('Fetching cart unsuccessful!');
           }
         }
         console.log('Cart history saved successfully in cartHistory backend API ! ');
       }
       else {
+        setProducts(previousState); //revert state
         console.log('Cart not saved successfully ! ');
       }
     }
@@ -515,7 +521,7 @@ function Yourcart() {
                         <button onClick={confirmAll} className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600">
                           Yes
                         </button>
-                        <button className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
+                        <button onClick={()=>setProceed(!proceed)} className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600">
                           No
                         </button>
                       </div>
@@ -528,7 +534,9 @@ function Yourcart() {
               <button onClick={callClear} className="bg-red-600 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-lg">
                 Clear Cart
               </button>
-              <button onClick={()=>setProceed(!proceed)} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg">
+              <button onClick={()=>{
+                setProceed(!proceed);
+                }} className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg">
                 Checkout 💳
               </button>
             </div>
