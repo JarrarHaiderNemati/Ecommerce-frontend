@@ -384,7 +384,7 @@ function Yourcart() {
     const user_email=sessionStorage.getItem('user_email');
     console.log('Inside confirmAll() !');
     setProceed(!proceed); //Disabale prodceeding div
-    setProducts([]);
+    await callClear();
     const previousState=structuredClone(products); //Previous state of products
     try{
       console.log('Inside try block of confirmAll ! ');
