@@ -101,6 +101,16 @@ function Signup() {
         alt="Background"
       />
 
+      {/* Important Note */}
+      <div className="absolute top-4 left-4 right-4 md:left-8 md:right-8 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-900 p-4 rounded shadow-md z-20">
+        <p className="font-semibold mb-1">⚠️ IMPORTANT NOTE</p>
+        <p className="text-sm leading-relaxed">
+          If any bugs are encountered (such as missing photos or incorrect stock quantity), 
+          it is most likely because a free backend server is being used for hosting. 
+          If needed, I may switch to a paid version to resolve these issues.
+        </p>
+      </div>
+
       {/* Signup Box */}
       <div className="relative z-10 bg-white p-6 md:p-8 rounded-lg shadow-lg w-full max-w-md text-center">
         <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-4">Sign Up</h2>
@@ -213,7 +223,7 @@ function Signup() {
         {showDemo ? "Hide Demo Video" : "Watch Demo Video"}
       </button>
 
-{/* Demo Video Element */}
+    {/* Demo Video Element */}
       {showDemo && (
           <div className="mt-4">
             <video
