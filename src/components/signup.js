@@ -105,7 +105,7 @@ function Signup() {
       <div className="absolute top-4 left-4 right-4 md:left-8 md:right-8 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-900 p-4 rounded shadow-md z-20">
         <p className="font-semibold mb-1">⚠️ IMPORTANT NOTE</p>
         <p className="text-sm leading-relaxed">
-          If any bugs are encountered (such as missing photos or incorrect stock quantity), 
+          If any bugs are encountered (such as missing photos or incorrect stock quantity or backend responses taking a long time), 
           it is most likely because a free backend server is being used for hosting. 
           If needed, I may switch to a paid version to resolve these issues.
         </p>
